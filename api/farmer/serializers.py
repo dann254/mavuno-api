@@ -22,7 +22,7 @@ class FarmerSerializer(serializers.ModelSerializer):
     created_by = UserInfoSerializer(read_only=True)
     class Meta:
         model = Farmer
-        fields = ('id', 'name', 'id_number', 'location', 'created_by', )
+        fields = ('id', 'name', 'id_number', 'location', 'created_by', 'created_at', )
 
     def create(self, validated_data):
         location_data = validated_data.pop('location')
