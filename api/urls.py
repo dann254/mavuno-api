@@ -19,12 +19,14 @@ from rest_framework_simplejwt import views as jwt_views
 from rest_framework import routers
 
 from api.auth_user.views import AddUserView, LoginView, UserListView
+from api.farmer.views import FarmerViewSet
 
 router = routers.DefaultRouter()
 
 router.register(r'api/auth/create', AddUserView, basename='create')
 router.register(r'api/auth/login', LoginView, basename='login')
 router.register(r'api/auth/users', UserListView, basename='users')
+router.register(r'api/farmers', FarmerViewSet, basename='farmers')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
