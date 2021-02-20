@@ -3,15 +3,31 @@ from django.contrib.gis.db import models
 from datetime import datetime
 from django.utils import timezone
 from api.auth_user.models import User
+from api.farmer.models import Farmer
 
-class Farmer(models.Model):
-    uid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4, verbose_name='Public identifier')
-    name = models.CharField(max_length=120, blank=False)
-    id_number = models.PositiveIntegerField(unique=True, blank=False)
-    farmer_metadata = models.JSONField(null=True)
+class Crop(models.Model):
+    name = models.CharField(max_length=50, unique=True, blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        ordering =['name']
+
+    def __str__(self):
+        return self.name
+
+class Farm(models.Model):
+    uid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4, verbose_name='Public identifier')
+    size = models.PositiveIntegerField(blank=False)
+    deed_number = models.PositiveIntegerField(unique=True, blank=False)
+    farm_metadata = models.JSONField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    crop = models.ForeignKey(Crop, null=True, on_delete=models.SET_NULL)
+    farmer = models.ForeignKey(Farmer, null=True, on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     @property
@@ -27,7 +43,7 @@ class Farmer(models.Model):
         ordering =['created_at']
 
 
-class FarmerLocation(models.Model):
+class FarmLocation(models.Model):
     point = models.PointField(blank=False)
     address = models.CharField(max_length=1200, blank=False)
     country = models.CharField(max_length=255, blank=False)
@@ -36,7 +52,7 @@ class FarmerLocation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    farmer = models.OneToOneField(Farmer, related_name='location', null=True, on_delete=models.CASCADE)
+    farm = models.OneToOneField(Farm, related_name='location', null=True, on_delete=models.CASCADE)
 
     @property
     def longitude(self):

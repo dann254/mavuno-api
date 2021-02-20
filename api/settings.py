@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'api.auth_user',
     'api.farmer',
+    'api.farm',
 ]
 
 MIDDLEWARE = [

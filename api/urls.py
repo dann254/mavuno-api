@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
-from rest_framework import routers
+# from rest_framework import routers
+from rest_framework_nested import routers
 
 from api.auth_user.views import AddUserView, LoginView, UserListView
 from api.farmer.views import FarmerViewSet
+from api.farm.views import FarmViewSet
 
 router = routers.DefaultRouter()
 
@@ -28,10 +30,15 @@ router.register(r'api/auth/login', LoginView, basename='login')
 router.register(r'api/auth/users', UserListView, basename='users')
 router.register(r'api/farmers', FarmerViewSet, basename='farmers')
 
+farmer_router = routers.NestedSimpleRouter(router, r'api/farmers', lookup='farmer')
+farmer_router.register(r'farms', FarmViewSet, basename='farmer-farms')
+# router.register(r'api/farmers/', FarmerViewSet, basename='farmers')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),
     path('api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 
     path('', include(router.urls)),
+    path('', include(farmer_router.urls)),
 ]
