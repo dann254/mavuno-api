@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'api.auth_user',
     'api.farmer',
     'api.farm',
+    'api.harvest',
 ]
 
 MIDDLEWARE = [
@@ -155,6 +156,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# NumericPasswordValidator
+MEDIA_ROOT = os.path.join(BASE_DIR, 'data/') # 'data' is my media folder
+MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

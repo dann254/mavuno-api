@@ -55,8 +55,8 @@ class FarmViewSet(viewsets.ViewSet):
 
     def list(self, request, farmer_pk=None):
         queryset = self.queryset
-        nameservers = queryset.filter(farmer_id=farmer_pk)
-        serializer = self.serializer_class(queryset, many=True)
+        farms = queryset.filter(farmer_id=farmer_pk)
+        serializer = self.serializer_class(farms, many=True)
         return Response(serializer.data)
 
 

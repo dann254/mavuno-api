@@ -22,6 +22,7 @@ from rest_framework_nested import routers
 from api.auth_user.views import AddUserView, LoginView, UserListView
 from api.farmer.views import FarmerViewSet
 from api.farm.views import FarmViewSet
+from api.harvest.views import HarvestViewSet
 
 router = routers.DefaultRouter()
 
@@ -32,7 +33,9 @@ router.register(r'api/farmers', FarmerViewSet, basename='farmers')
 
 farmer_router = routers.NestedSimpleRouter(router, r'api/farmers', lookup='farmer')
 farmer_router.register(r'farms', FarmViewSet, basename='farmer-farms')
-# router.register(r'api/farmers/', FarmerViewSet, basename='farmers')
+
+farm_router = routers.NestedSimpleRouter(farmer_router, r'farms', lookup='farm')
+farm_router.register(r'harvests', HarvestViewSet, basename='farmer-farms-harvest')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,4 +44,5 @@ urlpatterns = [
 
     path('', include(router.urls)),
     path('', include(farmer_router.urls)),
+    path('', include(farm_router.urls)),
 ]
