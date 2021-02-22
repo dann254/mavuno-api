@@ -36,9 +36,7 @@ else:
 
 ALLOWED_HOSTS = ['mavuno-api.herokuapp.com', '127.0.0.1', "localhost"]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8080/'
-]
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 AUTH_USER_MODEL = 'auth_user.User'
@@ -61,7 +59,8 @@ INSTALLED_APPS = [
     'api.farmer',
     'api.farm',
     'api.harvest',
-    'drf_yasg'
+    'drf_yasg',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
