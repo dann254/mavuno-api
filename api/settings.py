@@ -34,7 +34,11 @@ if os.environ.get("CURRENT_ENV") == 'development' or os.environ.get("CURRENT_ENV
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', "localhost"]
+ALLOWED_HOSTS = ['mavuno-api.herokuapp.com', '127.0.0.1', "localhost"]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080/'
+]
 
 
 AUTH_USER_MODEL = 'auth_user.User'
@@ -56,6 +60,7 @@ INSTALLED_APPS = [
     'api.farmer',
     'api.farm',
     'api.harvest',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [

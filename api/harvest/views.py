@@ -70,7 +70,7 @@ class HarvestViewSet(viewsets.ViewSet):
     def list(self, request, farmer_pk=None, farm_pk=None):
         queryset = self.queryset
         harvests = queryset.filter(farm_id = farm_pk, farm__farmer_id=farmer_pk)
-        serializer = self.serializer_class(queryset, many=True)
+        serializer = self.serializer_class(harvests, many=True)
         return Response(serializer.data)
 
 

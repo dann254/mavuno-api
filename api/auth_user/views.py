@@ -125,3 +125,11 @@ class UserListView(viewsets.ViewSet):
             }
 
             return Response(response, status=status.HTTP_200_OK)
+
+class UserView(viewsets.ViewSet):
+    serializer_class = UserInfoSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request):
+            serializer = self.serializer_class(request.user, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_200_OK)

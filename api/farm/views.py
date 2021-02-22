@@ -36,6 +36,8 @@ class FarmViewSet(viewsets.ViewSet):
                 crop_serializer.save()
                 crop = crop_serializer.data
 
+        crop = get_object_or_None(Crop, name__iexact=crop_name)
+
         serializer = self.serializer_class(data=request.data, context={'request': request, 'farmer': farmer, 'crop': crop})
         valid = serializer.is_valid(raise_exception=True)
 

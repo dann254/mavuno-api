@@ -10,9 +10,14 @@ from api.farm.serializers import FarmSerializer
 
 class PhotoSerializer(serializers.ModelSerializer):
     created_by = UserInfoSerializer(read_only=True)
+    photo_url = serializers.SerializerMethodField()
+
+    def get_photo_url(self, obj):
+        return obj.photo.url
+
     class Meta:
         model = Photo
-        fields = ('id', 'photo', 'md5_hash', 'created_by')
+        fields = ('id', 'photo', 'md5_hash', 'created_by', 'photo_url')
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -27,7 +32,7 @@ class HarvestSerializer(serializers.ModelSerializer):
     created_by = UserInfoSerializer(read_only=True)
     class Meta:
         model = Harvest
-        fields = ('id', 'dry_weight', 'wet_weight', 'farm', 'photos', 'created_by',)
+        fields = ('id', 'dry_weight', 'wet_weight', 'farm', 'photos', 'created_by', 'created_at',)
 
     def create(self, validated_data):
         photos_data = self.context['request'].FILES

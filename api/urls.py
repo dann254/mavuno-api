@@ -14,21 +14,38 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 from rest_framework_simplejwt import views as jwt_views
 # from rest_framework import routers
 from rest_framework_nested import routers
+from django.conf import settings
+from django.conf.urls.static import static
 
-from api.auth_user.views import AddUserView, LoginView, UserListView
+from api.auth_user.views import AddUserView, LoginView, UserListView, UserView
 from api.farmer.views import FarmerViewSet
 from api.farm.views import FarmViewSet
 from api.harvest.views import HarvestViewSet
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Mavuno API",
+      default_version='v1',
+      description="Mavuno is a product that allows collection of data about farmers, farms and their harvests.",
+   ),
+   public=True,
+   permission_classes=[permissions.AllowAny],
+)
 
 router = routers.DefaultRouter()
 
 router.register(r'api/auth/create', AddUserView, basename='create')
 router.register(r'api/auth/login', LoginView, basename='login')
 router.register(r'api/auth/users', UserListView, basename='users')
+router.register(r'api/auth/user', UserView, basename='user')
 router.register(r'api/farmers', FarmerViewSet, basename='farmers')
 
 farmer_router = routers.NestedSimpleRouter(router, r'api/farmers', lookup='farmer')
@@ -45,4 +62,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('', include(farmer_router.urls)),
     path('', include(farm_router.urls)),
-]
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+   re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+   re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc')
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
