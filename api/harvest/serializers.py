@@ -1,7 +1,5 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse_lazy
-from django.contrib.gis.geos import Point
-from rest_framework_gis.serializers import GeoModelSerializer, GeometrySerializerMethodField
 from PIL import Image
 import hashlib
 

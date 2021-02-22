@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'api.farmer',
     'api.farm',
     'api.harvest',
+    'api.stats',
     'drf_yasg',
     'corsheaders'
 ]

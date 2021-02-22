@@ -28,6 +28,7 @@ from api.auth_user.views import AddUserView, LoginView, UserListView, UserView
 from api.farmer.views import FarmerViewSet
 from api.farm.views import FarmViewSet
 from api.harvest.views import HarvestViewSet
+from api.stats.views import StatsView
 
 
 schema_view = get_schema_view(
@@ -58,6 +59,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),
     path('api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/stats/', StatsView.as_view(), name='stats'),
 
     path('', include(router.urls)),
     path('', include(farmer_router.urls)),
