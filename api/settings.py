@@ -73,6 +73,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'api.utils.middlewares.DisableClientSideCachingMiddleware'
 ]
 
 ROOT_URLCONF = 'api.urls'
@@ -128,6 +129,8 @@ DATABASES = {
     'default': dj_database_url.config(default=os.environ.get("DB_URL"))
 }
 
+GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = os.getenv('GEOS_LIBRARY_PATH')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

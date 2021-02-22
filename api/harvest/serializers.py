@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse_lazy
 from django.contrib.gis.geos import Point
 from rest_framework_gis.serializers import GeoModelSerializer, GeometrySerializerMethodField
 from PIL import Image
@@ -10,14 +11,14 @@ from api.farm.serializers import FarmSerializer
 
 class PhotoSerializer(serializers.ModelSerializer):
     created_by = UserInfoSerializer(read_only=True)
-    photo_url = serializers.SerializerMethodField()
+    # photo_url = serializers.SerializerMethodField()
 
-    def get_photo_url(self, obj):
-        return obj.photo.url
+    # def get_photo_url(self, obj):
+    #     return reverse_lazy("api-root", request=self.context['request']) + obj.photo.url
 
     class Meta:
         model = Photo
-        fields = ('id', 'photo', 'md5_hash', 'created_by', 'photo_url')
+        fields = ('id', 'photo', 'md5_hash', 'created_by')
 
     def create(self, validated_data):
         user = self.context['request'].user

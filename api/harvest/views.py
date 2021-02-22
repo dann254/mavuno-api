@@ -70,7 +70,7 @@ class HarvestViewSet(viewsets.ViewSet):
     def list(self, request, farmer_pk=None, farm_pk=None):
         queryset = self.queryset
         harvests = queryset.filter(farm_id = farm_pk, farm__farmer_id=farmer_pk)
-        serializer = self.serializer_class(harvests, many=True)
+        serializer = self.serializer_class(harvests, many=True, context={'request': request})
         return Response(serializer.data)
 
 
@@ -79,8 +79,8 @@ class HarvestViewSet(viewsets.ViewSet):
             return self.pk_error()
 
         queryset = self.queryset
-        farmer = get_object_or_404(queryset, pk=pk, farm_id = farm_pk, farm__farmer_id=farmer_pk)
-        serializer = self.serializer_class(farmer)
+        harvert = get_object_or_404(queryset, pk=pk, farm_id = farm_pk, farm__farmer_id=farmer_pk)
+        serializer = self.serializer_class(harvest, context={'request': request})
         return Response(serializer.data)
 
     def partial_update(self, request, pk=None, farmer_pk=None, farm_pk=None):
