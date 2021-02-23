@@ -15,6 +15,7 @@ Mavuno is a product that allows collection of data about farmers, farms and thei
 - cascade deletion to Uploaded image files
 - Detailed Stats
 - more tests
+- fix static files on heroku affecting images and docfiles
 
 ### Relevant information
 - ** new supervisor ** can only be created through the console with the following command.
