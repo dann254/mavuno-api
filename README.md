@@ -7,13 +7,21 @@ Mavuno is a product that allows collection of data about farmers, farms and thei
 - [System Desing and Info](https://docs.google.com/document/d/1mjwjrpINQ02RuPj8goAUg_ooU3Ok7B5TNsP1-qg6Pl4/edit?usp=sharing)
 - [staging](https://mavuno-api.herokuapp.com/)
 - [Frontend - Repository](https://github.com/dann254/mavuno)
-- [Documentation](https://mavuno-api.herokuapp.com/redoc/)
+- [Documentation](https://mavuno-api-q9lfvl8u7-dann254.vercel.app/)
+
+### TODO
+- Make detailed docs
+- add flagging of inconsistent data
+- cascade deletion to Uploaded image files
+- Detailed Stats
+- more tests
 
 ### Relevant information
 - ** new supervisor ** can only be created through the console with the following command.
 ```bash
 python manage.py createsuperuser --email email@example.com
 ```
+- Test user ** email: ** `email@example.com`, ** password: ** `password1`
 
 ## How to set up
 - Make sure you have **python3** installed.

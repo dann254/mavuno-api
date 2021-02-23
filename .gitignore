@@ -9,6 +9,7 @@ __pycache__
 db.sqlite3
 
 # Environments
+.vercel
 .env
 .venv
 env/
