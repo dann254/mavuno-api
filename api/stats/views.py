@@ -12,6 +12,48 @@ from api.farm.models import Farm, Crop
 class StatsView(views.APIView):
     permission_classes = (IsAuthenticated, IsSupervisor)
 
+    def get_crop_yields(self):
+        crops = Crop.objects.all()
+        harvests = Harvest.objects.all()
+
+        crop_harvests = {}
+        year_harvests = {}
+
+        for h in harvests:
+            name = h.farm.crop.name
+            year = h.year
+            if name in crop_harvests:
+                crop_harvests[name]['harvest_count'] += 1
+                crop_harvests[name]['total_wet_weight'] += h.wet_weight
+                crop_harvests[name]['total_dry_weight'] += h.dry_weight
+            else:
+                crop_harvests[name] = {}
+                crop_harvests[name]['name'] = name
+                crop_harvests[name]['harvest_count'] = 1
+                crop_harvests[name]['total_wet_weight'] = h.wet_weight
+                crop_harvests[name]['total_dry_weight'] = h.dry_weight
+
+            if year in year_harvests:
+                year_harvests[year]['harvest_count'] += 1
+            else:
+                year_harvests[year] = {}
+                year_harvests[year]['year'] = year
+                year_harvests[year]['harvest_count'] = 1
+
+
+        for name, value in crop_harvests.items():
+            wet_yield = 0
+            dry_yield = 0
+
+
+
+            wet_yield = crop_harvests[name]['total_wet_weight']/crop_harvests[name]['harvest_count']
+            dry_yield = crop_harvests[name]['total_dry_weight']/crop_harvests[name]['harvest_count']
+
+            crop_harvests[name]['avg_wet_yield'] = wet_yield
+            crop_harvests[name]['avg_dry_yield'] = dry_yield
+
+        return (crop_harvests, year_harvests)
 
     def generate_harvest_stats(self):
         harvests = Harvest.objects.all()
@@ -26,11 +68,13 @@ class StatsView(views.APIView):
 
         harvested_crops = len(h_crops)
 
-
+        crop_harvests, year_harvests = self.get_crop_yields()
 
         response = {
             'total_harvests': total_harvests,
-            'harvested_crops': harvested_crops
+            'harvested_crops': harvested_crops,
+            'crop_harvests': crop_harvests,
+            'year_harvests': year_harvests
         }
         return response
 

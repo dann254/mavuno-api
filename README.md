@@ -13,7 +13,6 @@ Mavuno is a product that allows collection of data about farmers, farms and thei
 - Make detailed docs
 - add flagging of inconsistent data
 - cascade deletion to Uploaded image files
-- Detailed Stats
 - more tests
 - fix static files on heroku affecting images and docfiles
 
