@@ -35,7 +35,7 @@ class FarmerViewSet(viewsets.ViewSet):
             return Response(response, status=status_code)
 
     def list(self, request):
-        queryset = self.queryset
+        queryset = Farmer.objects.all()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
